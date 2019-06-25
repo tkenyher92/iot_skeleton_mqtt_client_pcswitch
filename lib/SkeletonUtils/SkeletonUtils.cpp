@@ -33,7 +33,7 @@ void SkeletonUtils::setupWifi(const char *ssid, const char *password)
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(500);
-        Serial.print(".");
+        DEBUG_PRINT(".");
     }
     DEBUG_PRINTLN("");
     DEBUG_PRINTLN("SkeletonUtils: WiFi connected");

@@ -10,34 +10,54 @@ SkeletonMQTT::SkeletonMQTT(Client &client)
 }
 void SkeletonMQTT::setConfig(SkeletonDevice deviceData)
 {
+  DEBUG_PRINTLN("SkeletonMQTT: setConfig() INIT");
   _deviceId = deviceData.deviceId;
+  DEBUG_PRINT("SkeletonMQTT: _deviceId set to ");
+  DEBUG_PRINTLN(_deviceId);
   _mqttServer = deviceData.config.mqtt.server;
   _mqttPort = deviceData.config.mqtt.port;
   _mqttUser = deviceData.config.mqtt.user;
   _mqttPassword = deviceData.config.mqtt.password;
   _randomId = String(ESP.getChipId(), HEX);
-
+  DEBUG_PRINT("SkeletonMQTT: _randomId(ChipId) set to ");
+  DEBUG_PRINTLN(_randomId);
   _pubSubClient.setServer(_mqttServer, _mqttPort);
+  DEBUG_PRINTLN("SkeletonMQTT: setConfig() END");
 }
 
 void SkeletonMQTT::connect()
 {
+  DEBUG_PRINTLN("SkeletonMQTT: connect() INIT");
   while (!_pubSubClient.connected())
   {
+    DEBUG_PRINTLN("SkeletonMQTT: _pubSubClient not connected");
     String devId = String(_deviceId);
+    DEBUG_PRINT("SkeletonMQTT: devId is ");
+    DEBUG_PRINTLN(devId);
     String clientId = devId + "-" + _randomId;
+    DEBUG_PRINT("SkeletonMQTT: clientId is ");
+    DEBUG_PRINTLN(clientId);
+    DEBUG_PRINT("SkeletonMQTT: clientId is ");
+    DEBUG_PRINTLN(clientId.c_str());
     if (_pubSubClient.connect(clientId.c_str(), _mqttUser, _mqttPassword))
     {
+      DEBUG_PRINTLN("Connection re-established");
     }
     else
     {
+      DEBUG_PRINT("\tConnection failed, rc=");
+      DEBUG_PRINT(_pubSubClient.state());
+      DEBUG_PRINTLN(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
       delay(5000);
     }
   }
+  DEBUG_PRINTLN("SkeletonMQTT: connect() END");
 }
 
 void SkeletonMQTT::subscribe(const char *topicRoot, bool isConfigTopic = false, bool isSignalTopic = false, bool isDataTopic = false)
 {
+  DEBUG_PRINTLN("SkeletonMQTT: subscribe() INIT");
   if (isConfigTopic)
   {
     char *str3 = (char *)malloc(1 + strlen(topicRoot) + strlen(CONFIG_SUBTOPIC_NAME));
@@ -67,6 +87,7 @@ void SkeletonMQTT::subscribe(const char *topicRoot, bool isConfigTopic = false, 
     _dataTopic = str3;
     _pubSubClient.subscribe(str3);
   }
+  DEBUG_PRINTLN("SkeletonMQTT: subscribe() END");
 }
 
 void SkeletonMQTT::subscribeToTopic(const char *topic)

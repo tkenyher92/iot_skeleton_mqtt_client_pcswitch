@@ -13,7 +13,7 @@
 #include "WiFiUdp.h"
 
 // Uncomment to enable printing out nice debug messages.
-//#define SKELETON_UTILS_DEBUG
+#define SKELETON_UTILS_DEBUG
 
 // Define where debug output will be printed.
 #define DEBUG_PRINTER Serial

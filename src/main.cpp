@@ -97,27 +97,23 @@ void setup()
   while (!Serial)
   {
   }
-  Serial.println("Setup INIT");
+  Serial.println("Main: Setup INIT");
   skeletonFS.setConfigFile(CONFIGFILE);
   if (skeletonFS.verifyConfigFilePath())
   {
-    Serial.println("skeletonFS.verifyConfigFilePath: true");
-    //deviceData = skeletonFS.loadConfigFromSPIFFS();
+    Serial.println("Main: skeletonFS.verifyConfigFilePath: true");
+    deviceData = skeletonFS.loadConfigFromSPIFFS();
+    Serial.print("Main: deviceData.deviceId read as ");
     Serial.println(deviceData.deviceId);
-    Serial.println(deviceData.deviceType);
-    Serial.println(deviceData.config.wifi.ssid);
-    Serial.println(deviceData.config.wifi.password);
-    Serial.println(deviceData.config.mqtt.server);
-    Serial.println(deviceData.config.mqtt.port);
-    Serial.println(deviceData.config.mqtt.user);
-    Serial.println(deviceData.config.mqtt.password);
   }
   else
   {
-    Serial.println("skeletonFS.verifyConfigFilePath: false");
+    Serial.println("Main: skeletonFS.verifyConfigFilePath: false");
   }
   //loadConfigFromSPIFFS();
   skeletonUtils.setupWifi(deviceData.config.wifi.ssid, deviceData.config.wifi.password);
+  Serial.print("Main: deviceData.deviceId is ");
+  Serial.println(deviceData.deviceId);
   skeletonMQTT.setConfig(deviceData);
   //client.setServer(mqttServer, mqttPort);
   client.setCallback(callback);
@@ -127,7 +123,7 @@ void setup()
   // Deprecated
   client.subscribe(DEVICE_TOPIC);
 
-  Serial.println("Setup END");
+  Serial.println("Main: Setup END");
 }
 
 void loop()

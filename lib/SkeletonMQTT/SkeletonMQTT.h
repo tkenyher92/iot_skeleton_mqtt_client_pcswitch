@@ -16,7 +16,7 @@
 #include "SkeletonModel.h"
 
 // Uncomment to enable printing out nice debug messages.
-//#define SKELETON_MQTT_DEBUG
+#define SKELETON_MQTT_DEBUG
 
 // Define where debug output will be printed.
 #define DEBUG_PRINTER Serial
@@ -29,8 +29,6 @@
   #define DEBUG_PRINT(...) {}
   #define DEBUG_PRINTLN(...) {}
 #endif
-
-//#define STANDBY_SIGNAL "SG_AWAKE"
 
 class SkeletonMQTT {
   public:
@@ -47,14 +45,6 @@ class SkeletonMQTT {
     bool sendSignal(SkeletonSignal signal);
 
     bool sendSignal(SkeletonSignal signal, const char* topic);
-
-    // Can be scheduled to run reoccuring or once. Based on the recurring_seconds parameter value.
-    // If recurring_seconds is 0 it will publish only once and asap.
-    // If recurring_seconds is greater than 0 it will publish reoccurringly with the given offset
-    //bool publishStandbySignal(const char* parentTopic, unsigned long recurring_seconds);
-
-    //void fadeTo(float value, unsigned long duration);
-    //float getFade();
  
   private:
     SkeletonUtils _skeletonUtils;

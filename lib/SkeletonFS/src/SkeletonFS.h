@@ -14,7 +14,7 @@
 #include "SkeletonModel.h"
 
 // Uncomment to enable printing out nice debug messages.
-//#define SKELETON_FS_DEBUG
+#define SKELETON_FS_DEBUG
 
 // Define where debug output will be printed.
 #define DEBUG_PRINTER Serial
